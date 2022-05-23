@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 public class BasicEnemyBehaviour : EnemyBase
@@ -7,24 +6,35 @@ public class BasicEnemyBehaviour : EnemyBase
     [SerializeField] private Animator _animator;
 
     private string _attackCoroutineName = "AttackRoutine";
- 
+    private Sequence _seq;
 
     public override IEnumerator AttackRoutine()
     {
-        while (wallBehaviour.Healt <= 0)
+        while (wallBehaviour.Healt >= 0)
         {
             yield return new WaitForSeconds(1);
-            Debug.Log("Wall Healt>" + wallBehaviour.Healt);
 
             wallBehaviour.TakeDamage(damage);
+
+            Debug.Log("Wall Healt ->" + wallBehaviour.Healt);
+
         }
     }
   
 
     public override void OnStart()
     {
-        transform.DOMoveZ(wallBehaviour.transform.position.z-2, arrivalTime).OnComplete(()=>{ StartCoroutine(_attackCoroutineName); });
+        _seq = DOTween.Sequence();
+        _seq.Append(transform.DOMoveZ(wallBehaviour.transform.position.z+1, arrivalTime).OnComplete(()=>{
+            CanMove = false;
+            StartCoroutine(_attackCoroutineName); }));
     }
 
-
+    public override void TriggerOtherBot()
+    {
+        _seq.Kill();
+        StartCoroutine(_attackCoroutineName);
+    }
+    
+ 
 }

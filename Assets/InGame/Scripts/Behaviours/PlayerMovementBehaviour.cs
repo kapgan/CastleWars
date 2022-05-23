@@ -17,6 +17,8 @@ public class PlayerMovementBehaviour : MonoBehaviour
     public void FixedUpdate()
     {
         _direction = Vector3.forward * _joystick.Vertical + Vector3.right * _joystick.Horizontal;
+        if (_direction == Vector3.zero) return;
+
         _rb.velocity = (_direction * _speed * Time.fixedDeltaTime);
         _rotateDirection = Vector3.forward * _joystick.Vertical + Vector3.right * _joystick.Horizontal;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_rotateDirection), _rotateSpeed * Time.deltaTime);
