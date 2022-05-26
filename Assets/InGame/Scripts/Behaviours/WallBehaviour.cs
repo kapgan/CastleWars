@@ -9,7 +9,7 @@ public class WallBehaviour : MonoBehaviour
    [SerializeField] private int healt;
 
     public int Healt { get => healt; private set => healt = value; }
-
+    
     public void TakeDamage(int damage)
     {
         Healt -= damage;
@@ -17,7 +17,6 @@ public class WallBehaviour : MonoBehaviour
     }
     private void CheckWallStatus()
     {
-        if (healt <= 0) LevelBehaviour.Instance.GameEnd(false);
-            
+        if (healt <= 0) LevelBehaviour.Instance.GameEnd(false);   
     }
 }

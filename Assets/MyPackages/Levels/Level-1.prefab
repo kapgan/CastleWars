@@ -528,7 +528,7 @@ Rigidbody:
   m_GameObject: {fileID: 3013836846900044787}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -584,6 +584,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55ecd39f38a16094f82b7923f2d15ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpawnController: {fileID: 0}
+  PoolObject: {fileID: 0}
 --- !u!1 &4364713839238323573
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,7 +668,10 @@ MonoBehaviour:
   - {fileID: 2697075303558679876}
   - {fileID: 5261814869958916864}
   - {fileID: 7386407647075825484}
-  _spawnEnemy: {fileID: 4573480817294607360, guid: a9d62cc8d732a6241989c1742c26b59f, type: 3}
+  _spawnEnemies:
+  - {fileID: 4573480817294607360, guid: ee732daab6a38d146b1ea569069b0db8, type: 3}
+  - {fileID: 4573480817294607360, guid: ea8f74ed3febb0743a1b3511505a0acf, type: 3}
+  - {fileID: 4573480817294607360, guid: f14d1d5f05b238c49afda029f8681884, type: 3}
   _spawnTime: 3
   _maxEnemyCount: 10
   _wallBehaviour: {fileID: 7820560404700336464}

@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using System;
+
 public class BasicEnemyBehaviour : EnemyBase
 {
     [SerializeField] private Animator _animator;
@@ -13,19 +15,29 @@ public class BasicEnemyBehaviour : EnemyBase
         while (wallBehaviour.Healt >= 0)
         {
             yield return new WaitForSeconds(1);
-
-            wallBehaviour.TakeDamage(damage);
+            if (wallBehaviour.Healt > 0)
+            {
+                var bullet = objectPool.GetPooledObject((int)Enum.Parse(typeof(ObjectPool.BulletType),bulletType.ToString()));
+                bullet.transform.position = transform.position;
+                Vector3 target = wallBehaviour.transform.position;
+                target.x = transform.position.x;
+                bullet.transform.DOJump(target, 1, 1, 1).OnComplete(() => wallBehaviour.TakeDamage(damage));
+                
+            }
 
             Debug.Log("Wall Healt ->" + wallBehaviour.Healt);
 
         }
     }
-  
+    public override void TakeDamage(int damage)
+    {
+        
+    }
 
     public override void OnStart()
     {
         _seq = DOTween.Sequence();
-        _seq.Append(transform.DOMoveZ(wallBehaviour.transform.position.z+1, arrivalTime).OnComplete(()=>{
+        _seq.Append(transform.DOMoveZ(wallBehaviour.transform.position.z+3, arrivalTime).OnComplete(()=>{
             CanMove = false;
             StartCoroutine(_attackCoroutineName); }));
     }
