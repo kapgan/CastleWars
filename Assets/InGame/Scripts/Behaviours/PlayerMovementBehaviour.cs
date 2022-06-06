@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class PlayerMovementBehaviour : MonoBehaviour
 {
     public float _speed, _rotateSpeed;

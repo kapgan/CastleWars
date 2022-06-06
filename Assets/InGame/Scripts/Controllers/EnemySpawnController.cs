@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyPackages.Scripts.Behaviour;
 
 public class EnemySpawnController : MonoBehaviour
 {
@@ -13,11 +14,18 @@ public class EnemySpawnController : MonoBehaviour
     private List<int> _enemyCountOfLines;
     private int _nextEnemyType = 0;
     private EnemyBase _enemyBase;
+    private string _spawnEnemyCoroutine = "SpawnEnemy";
+    private bool _finishSpawnCoroutine = false;
     void Start()
     {
-        StartCoroutine(SpawnEnemy());
+        StartCoroutine(_spawnEnemyCoroutine);
         _enemyCountOfLines = new List<int>() { 0, 0, 0 };
-
+        LevelBehaviour.OnComplete += GameEnd;
+    }
+    private void GameEnd(bool v=false)
+    {
+        if (!_finishSpawnCoroutine)
+            StopCoroutine(_spawnEnemyCoroutine);
     }
     private int GetSPawnLineIndex()
     {
@@ -42,9 +50,14 @@ public class EnemySpawnController : MonoBehaviour
     private EnemyBase GetNextEnemy()
     {
         _nextEnemyType++;
-        _nextEnemyType = _nextEnemyType == _spawnEnemies.Count  ? 0 : _nextEnemyType;
+        _nextEnemyType = _nextEnemyType == _spawnEnemies.Count ? 0 : _nextEnemyType;
         Debug.Log(_spawnEnemies.Count);
         return _spawnEnemies[_nextEnemyType];
+    }
+
+    private void OnDisable()
+    {
+        GameEnd();
     }
     IEnumerator SpawnEnemy()
     {
@@ -57,5 +70,6 @@ public class EnemySpawnController : MonoBehaviour
             _maxEnemyCount--;
         }
         while (_maxEnemyCount > 0);
+        _finishSpawnCoroutine = true;
     }
 }
